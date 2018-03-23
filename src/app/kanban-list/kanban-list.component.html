@@ -1,3 +1,20 @@
-<p>
-  kanban-list works!
-</p>
+<section class="row">
+  <div class="col"
+       *ngFor="let board of boards">
+    <app-kanban-board [board]="board"
+                      (edit)="editBoard($event)"
+                      (remove)="removeBoard($event)">
+    </app-kanban-board>
+  </div>
+
+  <div class="col-12">
+    <button class="btn btn-primary" (click)="addBoard()">
+      <i class="fa fa-plus fa-lg"></i>
+      Add Group
+    </button>
+  </div>
+</section>
+
+
+
+
