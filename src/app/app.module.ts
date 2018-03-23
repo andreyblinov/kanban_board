@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
+import { KanbanListComponent } from './kanban-list/kanban-list.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    KanbanListComponent
   ],
   imports: [
     BrowserModule
