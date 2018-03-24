@@ -1,0 +1,46 @@
+<section>
+  <header class="modal-header">
+    <h1 class="display-4">{{editMode ? 'Edit Board' : 'New Board'}}</h1>
+
+    <button type="button" class="close" (click)="modal.close()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </header>
+
+  <div class="modal-body">
+    <form (ngSubmit)="addBoard(newBoard)"
+          #newBoard="ngForm"
+          id="newBoard"
+          name="newBoard"
+          novalidate>
+      <div class="form-group">
+        <label for="board">Create new board</label>
+        <input type="text"
+               class="form-control"
+               name="name"
+               #name="ngModel"
+               [ngModel]="board?.name"
+               id="board"
+               placeholder="Enter a board name (required)"
+               required>
+      </div>
+    </form>
+  </div>
+
+  <footer class="modal-footer">
+    <button type="submit"
+            class="btn btn-primary"
+            form="newBoard"
+            [disabled]="newBoard.invalid">
+      {{editMode ? 'Edit' : 'Create'}}
+    </button>
+
+    <button type="button"
+            class="btn btn-secondary"
+            (click)="resetForm(newBoard)"
+            data-dismiss="modal">
+      Close
+    </button>
+  </footer>
+
+</section>

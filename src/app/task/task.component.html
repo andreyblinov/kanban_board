@@ -1,0 +1,23 @@
+<article class="card">
+  <header class="card-header row">
+    <h4 class="col-9">{{task.title}}</h4>
+    <div class="col-3">
+      <button class="btn btn-warning btn-sm"
+              (click)="editTast(task)">
+        <i class="fa fa-pencil fa-sm"></i>
+      </button>
+      <button class="btn btn-danger btn-sm"
+              (click)="removeTask(task)">
+        <i class="fa fa-trash fa-sm"></i>
+      </button>
+    </div>
+  </header>
+
+    <div class="card-body">
+      <p class="card-text">{{task.description}}</p>
+    </div>
+
+  <footer class="card-footer">
+    {{task.estimate}} hours
+  </footer>
+</article>

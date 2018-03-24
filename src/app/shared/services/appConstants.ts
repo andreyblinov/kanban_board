@@ -1,13 +1,17 @@
 export const CONSTANTS = {
   DEFAULT_BOARDS: [
     {
-      name: 'TODO'
+      name: 'TODO',
+      tasks: []
     },
     {
-      name: 'InProgress'
+      name: 'InProgress',
+      tasks: []
     },
     {
-      name: 'Done'
+      name: 'Done',
+      tasks: []
     }
   ]
-}
+};
+

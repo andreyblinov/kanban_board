@@ -1,14 +1,18 @@
 <article>
   <div class="row">
-    <h3 class="display-6 col-10">{{board.name}}</h3>
+    <h3 class="display-6 col-9">{{board.name}}</h3>
 
-    <div class="col-2">
+    <div class="col-3">
+      <button class="btn btn-success"
+              (click)="addTask(board)">
+        <i class="fa fa-plus"></i>
+      </button>
       <button class="btn btn-warning"
               (click)="editBoard(board)">
         <i class="fa fa-pencil"></i>
       </button>
       <button class="btn btn-danger"
-              (click)="removeBoard(board)">
+              (click)="removeBoard()">
         <i class="fa fa-trash"></i>
       </button>
     </div>
@@ -16,11 +20,36 @@
   </div>
 
 
-  <div *ngFor="let task of tasks else addTaskBtn">
-    <app-task [task]="task"></app-task>
+  <div *ngIf="board?.tasks && board.tasks.length">
+    <div *ngFor="let task of board.tasks" class="task">
+      <app-task [task]="task"
+                (edit)="editTask($event)"
+                (remove)="removeTask($event)">
+      </app-task>
+    </div>
   </div>
-
-  <ng-template #addTaskBtn>
-    button.btn.btn-primary{Add new task}
-  </ng-template>
 </article>
+
+<ng-template #modal let-close="close" let-dismiss="dismiss">
+  <div class="modal-header">
+    <h5 class="modal-title">Confirm</h5>
+    <button type="button" class="close" (click)="dismiss()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Are you sure you want to delete <b>{{board.name}}</b> board?
+  </div>
+  <div class="modal-footer">
+    <button type="button"
+            class="btn btn-secondary"
+            (click)="dismiss()">
+      Cancel
+    </button>
+    <button type="button"
+            class="btn btn-success"
+            (click)="close(board)">
+      Confirm
+    </button>
+  </div>
+</ng-template>
