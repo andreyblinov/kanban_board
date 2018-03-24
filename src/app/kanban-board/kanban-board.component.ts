@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import {Board} from '../shared/models/board';
 import {Task} from '../shared/models/task';
 import {ContextService} from '../shared/services/context.service';
@@ -12,7 +12,7 @@ import {BoardModalComponent} from '../modals/new-board.modal/board.modal.compone
   templateUrl: './kanban-board.component.html',
   styleUrls: ['./kanban-board.component.scss']
 })
-export class KanbanBoardComponent implements OnInit {
+export class KanbanBoardComponent implements OnInit, OnChanges {
   @Input() board;
   @Output() edit: EventEmitter<Board> = new EventEmitter<Board>();
   @Output() remove: EventEmitter<Board> = new EventEmitter<Board>();
@@ -25,6 +25,12 @@ export class KanbanBoardComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  ngOnChanges(changes) {
+    if (changes.board) {
+      this.board = Object.assign({}, changes.board.currentValue);
+    }
   }
 
   public editBoard(boardToEdit): void {

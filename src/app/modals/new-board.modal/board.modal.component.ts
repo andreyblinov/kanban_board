@@ -20,9 +20,20 @@ export class BoardModalComponent implements OnInit {
   }
 
   addBoard(board) {
-    board.value.tasks = [];
+    console.log('add', board)
+    board.tasks = [];
+    board.id = new Date().getTime();
     this.groupsService
-      .saveBoard(board.value)
+      .saveBoard(board)
+      .subscribe(data => {
+        this.modal.close(data);
+      });
+  }
+
+  editBoard(board) {
+    console.log('edit', board )
+    this.groupsService
+      .editBoard(board)
       .subscribe(data => {
         this.modal.close(data);
       });
@@ -31,5 +42,9 @@ export class BoardModalComponent implements OnInit {
   resetForm(form) {
     form.reset();
     this.modal.close();
+  }
+
+  changeName(board, newName) {
+    board.name = newName;
   }
 }

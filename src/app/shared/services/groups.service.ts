@@ -13,6 +13,7 @@ export class GroupsService {
   }
 
   saveBoard(board) {
+    console.log(board)
     return this.contextService.storeToLocalStorage(board);
   }
 

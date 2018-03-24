@@ -8,19 +8,20 @@
   </header>
 
   <div class="modal-body">
-    <form (ngSubmit)="addBoard(newBoard)"
+    <form (ngSubmit)="editMode ? editBoard(board) : addBoard(newBoard.value)"
           #newBoard="ngForm"
           id="newBoard"
           name="newBoard"
           novalidate>
       <div class="form-group">
-        <label for="board">Create new board</label>
+        <label for="board">Board name</label>
         <input type="text"
                class="form-control"
+               id="board"
                name="name"
                #name="ngModel"
                [ngModel]="board?.name"
-               id="board"
+               (input)="changeName(board, name.value)"
                placeholder="Enter a board name (required)"
                required>
       </div>

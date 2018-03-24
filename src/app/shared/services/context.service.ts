@@ -36,7 +36,7 @@ export class ContextService {
   editBoard(boardToEdit): Observable<Board> {
     const boards = JSON.parse(this.storage.getItem('boards'))
     const edited = boards.map(board => {
-      if (board.name === boardToEdit.name) {
+      if (board.id === boardToEdit.id) {
             board = Object.assign({}, board, boardToEdit);
           }
 
