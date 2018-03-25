@@ -14,13 +14,12 @@ export class TaskModalComponent implements OnInit {
 
   ngOnInit() {}
 
-  public addTask(task, currentBoard) {
-    task.id = new Date().getTime();
+  public addTask(taskToAdd, currentBoard) {
+    taskToAdd.id = new Date().getTime();
     this.groupsService
-      .saveTask(task, currentBoard)
-      .subscribe(data => {
-        console.log(task)
-        this.modal.close(task);
+      .saveTask(taskToAdd, currentBoard)
+      .subscribe(() => {
+        this.modal.close(taskToAdd);
       });
   }
 
@@ -34,9 +33,9 @@ export class TaskModalComponent implements OnInit {
     }
   }
 
-  public editTask(task, currentBoard) {
+  public editTask(task, currentBoard): any {
     this.groupsService
-      .editTask(task, currentBoard)
+      .changeTask(task, currentBoard)
       .subscribe(data => {
         this.modal.close(data);
       });

@@ -17,8 +17,8 @@ export class GroupsService {
     return this.contextService.storeToLocalStorage(board);
   }
 
-  public editBoard(board): Observable<Board> {
-    return this.contextService.editBoard(board);
+  public changeBoard(board): Observable<Board> {
+    return this.contextService.changeBoard(board);
   }
 
   public removeBoard(board): Observable<boolean> {
@@ -29,8 +29,8 @@ export class GroupsService {
     return this.contextService.storeTaskToLocalStorage(task, currentBoard);
   }
 
-  public editTask(task, currentBoard): Observable<Board[]> {
-    return this.contextService.editTask(task, currentBoard);
+  public changeTask(task, currentBoard): Observable<Board> {
+    return this.contextService.changeTask(task, currentBoard);
   }
 
   public removeTask(task, currentBoard): Observable<boolean> {

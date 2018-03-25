@@ -1,8 +1,8 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import {Board} from '../shared/models/board';
 import {Task} from '../shared/models/task';
 import {ContextService} from '../shared/services/context.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TaskModalComponent} from '../modals/new-task.modal/task.modal.component';
 import { noop } from 'lodash';
 import {BoardModalComponent} from '../modals/new-board.modal/board.modal.component';
@@ -22,6 +22,8 @@ export class KanbanBoardComponent implements OnInit, OnChanges {
 
   constructor(private contextService: ContextService,
               private groupsService: GroupsService,
+              private activeModal: NgbActiveModal,
+              private cd: ChangeDetectorRef,
               private modal: NgbModal) { }
 
   ngOnInit() {
@@ -34,33 +36,48 @@ export class KanbanBoardComponent implements OnInit, OnChanges {
     }
   }
 
-  public editBoard(boardToEdit): void {
+  public openBoardModalToEdit(boardToEdit): void {
     const ref = this.modal.open(BoardModalComponent, {keyboard: false, backdrop: 'static', size: 'lg'});
-    ref.componentInstance.board = boardToEdit;
+    ref.componentInstance.board = boardToEdit
     ref.componentInstance.editMode = true;
-    ref.result.then(board => this.edit.emit(board), noop);
+    ref.result.then(board => this.edit.emit(board));
   }
 
   public removeBoard(): void {
     const ref = this.modal.open(this.confirmationModal, {keyboard: false, backdrop: 'static', size: 'lg'});
-    ref.result.then(board => this.remove.emit(board));
+    ref.result.then(board => {
+      this.remove.emit(board);
+    } );
   }
 
-  public addTask() {
+  public openTaskModalToAdd() {
     const ref = this.modal.open(TaskModalComponent, {keyboard: false, backdrop: 'static', size: 'lg'});
     ref.componentInstance.currentBoard = this.board;
-    ref.result.then(task => {
-      console.log(task)
-      this.board.tasks = [...this.board.tasks, task];
+    ref.componentInstance.task = {title: '', description: '', estimate: 0};
+    ref.result.then(task => this.board.tasks = [...this.board.tasks, task]);
+  }
+
+  public editTask(options) {
+    this.board.tasks = this.board.tasks.map((board: Board) => {
+      if (board.id === options.currentBoard.id) {
+        board.tasks.map((task: Task) => {
+          if (task.id === options.task.id) {
+            for (const prop in task) {
+              if (task.hasOwnProperty(prop)) {
+                task[prop] = options.task[prop];
+              }
+            }
+          }
+        });
+      }
+      return board;
     });
   }
 
   public dragTask(taskToAdd, currentBoard) {
     this.groupsService
       .saveTask(taskToAdd, currentBoard)
-      .subscribe(task => {
-        this.board.tasks = [...this.board.tasks, task];
-      });
+      .subscribe(() => this.board.tasks = [...this.board.tasks, taskToAdd]);
   }
 
   public removeTask(taskToRemove, board = this.board) {
@@ -68,6 +85,7 @@ export class KanbanBoardComponent implements OnInit, OnChanges {
       .removeTask(taskToRemove, board)
       .subscribe(() => {
         board.tasks = board.tasks.filter(task => task.id !== taskToRemove.id);
+
       });
   }
 
@@ -89,6 +107,8 @@ export class KanbanBoardComponent implements OnInit, OnChanges {
       this.taskEnteredToDropZone = false;
 
       this.removeTask(taskData.task, taskData.board);
-      this.dragTask(taskData.task, event.target);
+      this.dragTask(taskData.task, this.board);
+
+    this.cd.detectChanges();
   }
 }

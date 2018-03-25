@@ -2,7 +2,7 @@
   <h1 class="display-3 text-center col-10">Kanban Board</h1>
   <div class="col-2">
     <button class="btn btn-success btn-lg"
-            (click)="addBoard()">
+            (click)="openBoardModalToAdd()">
       <i class="fa fa-plus fa-sm"></i>
     </button>
   </div>
@@ -13,7 +13,6 @@
        *ngFor="let board of boards">
     <app-kanban-board [board]="board"
                       (edit)="editBoard($event)"
-                      (showMessage)="displayMessage($event)"
                       (remove)="removeBoard($event)">
     </app-kanban-board>
   </div>

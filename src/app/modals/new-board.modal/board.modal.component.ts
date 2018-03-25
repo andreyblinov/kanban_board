@@ -19,7 +19,7 @@ export class BoardModalComponent implements OnInit {
   ngOnInit() {
   }
 
-  addBoard(board) {
+  public addBoard(board) {
     board.tasks = [];
     board.id = new Date().getTime();
     this.groupsService
@@ -29,10 +29,10 @@ export class BoardModalComponent implements OnInit {
       });
   }
 
-  editBoard(board) {
+  public editBoard(boardToEdit) {
     this.groupsService
-      .editBoard(board)
-      .subscribe(data => {
+      .changeBoard(boardToEdit)
+      .subscribe((data) => {
         this.modal.close(data);
       });
   }

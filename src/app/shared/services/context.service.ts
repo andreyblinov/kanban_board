@@ -1,14 +1,18 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {CONSTANTS} from './appConstants';
 import {Observable} from 'rxjs';
 import {Board} from '../models/board';
 
 @Injectable()
-export class ContextService {
+export class ContextService implements OnInit {
   private storage;
 
   constructor() {
     this.storage = localStorage;
+  }
+
+  ngOnInit() {
+    this.setDefaultBoards();
   }
 
   private getStorageItems(key): Board[] {
@@ -23,7 +27,12 @@ export class ContextService {
     return Observable.of(this.getStorageItems('boards'));
   }
 
+  public setDefaultBoards() {
+    this.storage.setItem('boards', JSON.stringify(CONSTANTS.DEFAULT_BOARDS));
+  }
+
   public storeToLocalStorage(board): Observable<Board> {
+
     let boards;
     boards = this.getStorageItems('boards') === null ? [] : this.getStorageItems('boards');
     boards.push(board);
@@ -31,7 +40,7 @@ export class ContextService {
     return Observable.of(board);
   }
 
-  editBoard(boardToEdit): Observable<Board> {
+  changeBoard(boardToEdit): Observable<Board> {
     const editedBoards = this.getStorageItems('boards').map(board => {
       if (board.id === boardToEdit.id) {
             board = Object.assign({}, board, boardToEdit);
@@ -49,20 +58,25 @@ export class ContextService {
     return Observable.of(true);
   }
 
-  editTask(taskToEdit, currentBoard): Observable<Board[]> {
+  changeTask(taskToEdit, currentBoard): Observable<Board> {
     const boardToEdit = this.getStorageItems('boards').map(board => {
       if (board.id === currentBoard.id) {
         board.tasks.map(task => {
           if (task.id === taskToEdit.id) {
-            task = Object.assign({}, task, taskToEdit);
+            for (const prop in task) {
+              if (task.hasOwnProperty(prop)) {
+                task[prop] = taskToEdit[prop];
+              }
+            }
           }
         });
       }
 
-      return boardToEdit;
+      return board;
     });
     this.setStorageItems('boards', boardToEdit);
-    return Observable.of(boardToEdit);
+    console.log(boardToEdit[0]);
+    return Observable.of(boardToEdit[0]);
   }
 
   public storeTaskToLocalStorage(task, currentBoard): Observable<Board>  {
@@ -80,8 +94,6 @@ export class ContextService {
   }
 
   removeTask(taskToRemove, currentBoard): Observable<boolean> {
-    console.log(taskToRemove)
-    console.log(currentBoard)
     const editedBoards = this.getStorageItems('boards').map(board => {
       if (board.id === currentBoard.id) {
         board.tasks = board.tasks.filter(task => task.id !== taskToRemove.id);

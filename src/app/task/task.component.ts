@@ -21,11 +21,12 @@ export class TaskComponent implements OnInit {
 
   ngOnInit() {}
 
-  public editTask(taskToEdit): void {
+  public openTaskModalToEdit(taskToEdit): void {
     const ref = this.modal.open(TaskModalComponent, {keyboard: false, backdrop: 'static', size: 'lg'});
-    ref.componentInstance.task = taskToEdit;
     ref.componentInstance.editMode = true;
-    ref.result.then(task => this.edit.emit(task), noop);
+    ref.componentInstance.currentBoard = this.board;
+    ref.componentInstance.task = taskToEdit;
+    ref.result.then(() => this.edit.emit(<any>{task: taskToEdit, currentBoard: this.board}), noop);
   }
 
   public removeTask(): void {

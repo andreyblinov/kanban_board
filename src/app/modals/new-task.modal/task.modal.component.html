@@ -6,44 +6,35 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </header>
-
+  <h1> Current board {{currentBoard.name}}</h1>
   <div class="modal-body">
-    <form (ngSubmit)="editMode ? editTask(task, currentBoard) : addTask(newTask.value, currentBoard)"
+    <form (ngSubmit)="!editMode ? addTask(newTask.value, currentBoard) : editTask(task, currentBoard)"
           #newTask="ngForm"
           id="newTask"
           name="newTask"
           novalidate>
       <div class="form-group">
-        <label>Task title</label>
+        <label for="taskTitle">Task title</label>
         <input type="text"
-               *ngIf="editMode"
                class="form-control"
                name="title"
                #title="ngModel"
                [ngModel]="task?.title"
+               id="taskTitle"
                (input)="changeTask(task, title.value, 'title')"
-               placeholder="Enter a task title (required)"
-               required>
-
-        <input type="text"
-               *ngIf="!editMode"
-               class="form-control"
-               name="title"
-               #title="ngModel"
-               ngModel
                placeholder="Enter a task title (required)"
                autofocus
                required>
 
-        <!--<div *ngIf="title.touched && title.errors">-->
-          <!--<div *ngIf="title.errors.required" class="alert alert-danger">Task title is required</div>-->
-        <!--</div>-->
+        <div *ngIf="title.touched && title.errors">
+          <div *ngIf="title.errors.required" class="alert alert-danger">Task title is required</div>
+        </div>
       </div>
 
       <div class="form-group">
-        <label>Task description</label>
+        <label for="description">Task description</label>
         <textarea name="description"
-                  *ngIf="editMode"
+                  id="description"
                   class="form-control"
                   cols="10"
                   rows="3"
@@ -54,27 +45,16 @@
                   required>
         </textarea>
 
-        <textarea name="description"
-                  class="form-control"
-                  *ngIf="!editMode"
-                  cols="10"
-                  rows="3"
-                  placeholder="Enter description of the task (required)"
-                  #description="ngModel"
-                  ngModel
-                  required>
-        </textarea>
-
-        <!--<div *ngIf="description.touched && description.errors">-->
-          <!--<div *ngIf="description.errors.required" class="alert alert-danger">Description of the task is required</div>-->
-        <!--</div>-->
+        <div *ngIf="description.touched && description.errors">
+          <div *ngIf="description.errors.required" class="alert alert-danger">Description of the task is required</div>
+        </div>
       </div>
 
       <div class="form-group">
-        <label>Estimate (in hours)</label>
+        <label for="estimate">Estimate (in hours)</label>
         <input type="text"
-               *ngIf="editMode"
                class="form-control"
+               id="estimate"
                name="estimate"
                #estimate="ngModel"
                (input)="changeTask(task, estimate.value, 'estimate')"
@@ -82,20 +62,10 @@
                placeholder="Enter task estimate in hours (required)"
                pattern="[0-9]+"
                required>
-
-        <input type="text"
-               *ngIf="!editMode"
-               class="form-control"
-               name="estimate"
-               #estimate="ngModel"
-               ngModel
-               placeholder="Enter task estimate in hours (required)"
-               pattern="[0-9]+"
-               required>
-        <!--<div *ngIf="estimate.touched && estimate.errors">-->
-          <!--<div *ngIf="estimate.errors.required" class="alert alert-danger">Estimate is required</div>-->
-          <!--<div *ngIf="estimate.errors.pattern" class="alert alert-danger">Letters are not allowed</div>-->
-        <!--</div>-->
+        <div *ngIf="estimate.touched && estimate.errors">
+          <div *ngIf="estimate.errors.required" class="alert alert-danger">Estimate is required</div>
+          <div *ngIf="estimate.errors.pattern" class="alert alert-danger">Letters are not allowed</div>
+        </div>
       </div>
     </form>
   </div>
