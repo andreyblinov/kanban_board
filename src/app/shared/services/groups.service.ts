@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {ContextService} from './context.service';
 import {Observable} from 'rxjs/Observable';
 import {Board} from '../models/board';
+import {Task} from '../models/task';
 
 @Injectable()
 export class GroupsService {
@@ -12,20 +13,27 @@ export class GroupsService {
     // return this.contextService.getFromLocalStorage();
   }
 
-  saveBoard(board) {
-    console.log(board)
+  public saveBoard(board): Observable<Board> {
     return this.contextService.storeToLocalStorage(board);
   }
 
-  editBoard(board): Observable<Board> {
+  public editBoard(board): Observable<Board> {
     return this.contextService.editBoard(board);
   }
 
-  removeBoard(board): Observable<boolean> {
+  public removeBoard(board): Observable<boolean> {
     return this.contextService.removeBoard(board);
   }
 
-  saveTask(task) {
-    console.log(task);
+  public saveTask(task, currentBoard) {
+    return this.contextService.storeTaskToLocalStorage(task, currentBoard);
+  }
+
+  public editTask(task, currentBoard): Observable<Board[]> {
+    return this.contextService.editTask(task, currentBoard);
+  }
+
+  public removeTask(task, currentBoard): Observable<boolean> {
+    return this.contextService.removeTask(task, currentBoard);
   }
 }

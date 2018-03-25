@@ -1,9 +1,9 @@
-<article class="card">
-  <header class="card-header row">
-    <h4 class="col-9">{{task.title}}</h4>
-    <div class="col-3">
+<article draggable="true" (dragstart)="dragTask($event, this)" id="task">
+  <header>
+    <h4 class="float-left">{{task.title}}</h4>
+    <div class="float-right">
       <button class="btn btn-warning btn-sm"
-              (click)="editTast(task)">
+              (click)="editTask(task)">
         <i class="fa fa-pencil fa-sm"></i>
       </button>
       <button class="btn btn-danger btn-sm"
@@ -13,11 +13,35 @@
     </div>
   </header>
 
-    <div class="card-body">
+    <div class="message">
       <p class="card-text">{{task.description}}</p>
     </div>
 
-  <footer class="card-footer">
-    {{task.estimate}} hours
-  </footer>
+  <div class="text-center">
+    <span>Estimate: {{task.estimate}} hours</span>
+  </div>
 </article>
+
+<ng-template #modal let-close="close" let-dismiss="dismiss">
+  <div class="modal-header">
+    <h5 class="modal-title">Confirm</h5>
+    <button type="button" class="close" (click)="dismiss()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Are you sure you want to delete <b>{{task.title}}</b> task?
+  </div>
+  <div class="modal-footer">
+    <button type="button"
+            class="btn btn-secondary"
+            (click)="dismiss()">
+      Cancel
+    </button>
+    <button type="button"
+            class="btn btn-success"
+            (click)="close(task)">
+      Confirm
+    </button>
+  </div>
+</ng-template>

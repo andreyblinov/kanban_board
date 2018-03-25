@@ -12,7 +12,7 @@ import {ContextService} from './shared/services/context.service';
 import { KanbanBoardComponent } from './kanban-board/kanban-board.component';
 import { TaskComponent } from './task/task.component';
 import { BoardModalComponent } from './modals/new-board.modal/board.modal.component';
-import { NewTaskModalComponent } from './modals/new-task.modal/new-task.modal.component';
+import { TaskModalComponent } from './modals/new-task.modal/task.modal.component';
 
 
 @NgModule({
@@ -22,7 +22,7 @@ import { NewTaskModalComponent } from './modals/new-task.modal/new-task.modal.co
     BoardModalComponent,
     KanbanBoardComponent,
     TaskComponent,
-    NewTaskModalComponent
+    TaskModalComponent
   ],
   imports: [
     BrowserModule,
@@ -31,6 +31,6 @@ import { NewTaskModalComponent } from './modals/new-task.modal/new-task.modal.co
   ],
   providers: [NgbModalStack, NgbActiveModal, GroupsService, ContextService],
   bootstrap: [AppComponent],
-  entryComponents: [BoardModalComponent]
+  entryComponents: [BoardModalComponent, TaskModalComponent]
 })
 export class AppModule { }

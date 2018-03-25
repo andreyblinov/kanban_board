@@ -20,7 +20,6 @@ export class BoardModalComponent implements OnInit {
   }
 
   addBoard(board) {
-    console.log('add', board)
     board.tasks = [];
     board.id = new Date().getTime();
     this.groupsService
@@ -31,7 +30,6 @@ export class BoardModalComponent implements OnInit {
   }
 
   editBoard(board) {
-    console.log('edit', board )
     this.groupsService
       .editBoard(board)
       .subscribe(data => {
@@ -39,12 +37,12 @@ export class BoardModalComponent implements OnInit {
       });
   }
 
+  changeName(board, newName) {
+    board.name = newName;
+  }
+
   resetForm(form) {
     form.reset();
     this.modal.close();
-  }
-
-  changeName(board, newName) {
-    board.name = newName;
   }
 }

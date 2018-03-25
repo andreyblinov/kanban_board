@@ -1,0 +1,15 @@
+article {
+  background-color: lightcoral;
+  padding: 15px;
+  font-family: "Helvetica Neue";
+  border-radius: 10px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.message {
+  margin: 10px 0;
+}

@@ -11,47 +11,84 @@ export class ContextService {
     this.storage = localStorage;
   }
 
-  setDefaultBoards() {
-    const defaultBoards = JSON.stringify(CONSTANTS.DEFAULT_BOARDS);
-    this.storage.setItem('boards', defaultBoards);
+  private getStorageItems(key): Board[] {
+    return JSON.parse(this.storage.getItem(key));
   }
 
-  getBoards() {
-    return Observable.of(JSON.parse(this.storage.getItem('boards')));
+  private setStorageItems(key, value): void {
+    this.storage.setItem(key, JSON.stringify(value));
   }
 
-  storeToLocalStorage(board) {
+  public getBoards(): Observable<Board[]> {
+    return Observable.of(this.getStorageItems('boards'));
+  }
+
+  public storeToLocalStorage(board): Observable<Board> {
     let boards;
-
-    if (this.storage.getItem('boards') === null) {
-      boards = [];
-    } else {
-      boards = JSON.parse(this.storage.getItem('boards'))
-    }
+    boards = this.getStorageItems('boards') === null ? [] : this.getStorageItems('boards');
     boards.push(board);
-    this.storage.setItem('boards', JSON.stringify(boards));
+    this.setStorageItems('boards', boards);
     return Observable.of(board);
   }
 
   editBoard(boardToEdit): Observable<Board> {
-    const boards = JSON.parse(this.storage.getItem('boards'))
-    const edited = boards.map(board => {
+    const editedBoards = this.getStorageItems('boards').map(board => {
       if (board.id === boardToEdit.id) {
             board = Object.assign({}, board, boardToEdit);
           }
 
           return board;
     });
-    this.storage.setItem('boards', JSON.stringify(edited));
+    this.setStorageItems('boards', editedBoards);
     return Observable.of(boardToEdit);
   }
 
   removeBoard(boardToRemove): Observable<boolean> {
-    const boards = JSON.parse(this.storage.getItem('boards'))
-    const removed = boards.filter(board => board.name !== boardToRemove.name);
-    this.storage.setItem('boards', JSON.stringify(removed));
+    const boards = this.getStorageItems('boards').filter(board => board.id !== boardToRemove.id);
+    this.setStorageItems('boards', boards);
     return Observable.of(true);
   }
 
+  editTask(taskToEdit, currentBoard): Observable<Board[]> {
+    const boardToEdit = this.getStorageItems('boards').map(board => {
+      if (board.id === currentBoard.id) {
+        board.tasks.map(task => {
+          if (task.id === taskToEdit.id) {
+            task = Object.assign({}, task, taskToEdit);
+          }
+        });
+      }
 
+      return boardToEdit;
+    });
+    this.setStorageItems('boards', boardToEdit);
+    return Observable.of(boardToEdit);
+  }
+
+  public storeTaskToLocalStorage(task, currentBoard): Observable<Board>  {
+    let boards;
+    boards = this.getStorageItems('boards') === null ? [] : this.getStorageItems('boards');
+    const editedBoard = boards.map(board => {
+      if (board.id === currentBoard.id) {
+        board.tasks = [...board.tasks, task];
+      }
+
+      return board;
+    });
+    this.setStorageItems('boards', editedBoard);
+    return Observable.of(editedBoard);
+  }
+
+  removeTask(taskToRemove, currentBoard): Observable<boolean> {
+    console.log(taskToRemove)
+    console.log(currentBoard)
+    const editedBoards = this.getStorageItems('boards').map(board => {
+      if (board.id === currentBoard.id) {
+        board.tasks = board.tasks.filter(task => task.id !== taskToRemove.id);
+      }
+      return board;
+    });
+    this.setStorageItems('boards', editedBoards);
+    return Observable.of(true);
+  }
 }

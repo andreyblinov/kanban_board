@@ -14,17 +14,32 @@
           name="newBoard"
           novalidate>
       <div class="form-group">
-        <label for="board">Board name</label>
+        <label>Board name</label>
         <input type="text"
+               *ngIf="!editMode"
                class="form-control"
-               id="board"
+               name="name"
+               #name="ngModel"
+               ngModel
+               placeholder="Enter a board name (required)"
+               autofocus
+               required>
+
+        <input type="text"
+               *ngIf="editMode"
+               class="form-control"
                name="name"
                #name="ngModel"
                [ngModel]="board?.name"
                (input)="changeName(board, name.value)"
                placeholder="Enter a board name (required)"
+               autofocus
                required>
+        <!--<div *ngIf="name.touched && name.errors">-->
+          <!--<div *ngIf="name.errors.required" class="alert alert-danger">Board name is required</div>-->
+        <!--</div>-->
       </div>
+
     </form>
   </div>
 

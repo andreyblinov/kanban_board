@@ -13,6 +13,7 @@
        *ngFor="let board of boards">
     <app-kanban-board [board]="board"
                       (edit)="editBoard($event)"
+                      (showMessage)="displayMessage($event)"
                       (remove)="removeBoard($event)">
     </app-kanban-board>
   </div>

@@ -1,7 +1,26 @@
 article {
   background-color: royalblue;
+  padding: 10px 20px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.tasks {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .task {
-  width: 50%;
+  margin-bottom: 10px;
+  width: 45%;
+}
+
+.task-enter {
+  border: 2px dashed black
 }

@@ -13,10 +13,13 @@ import {ContextService} from '../shared/services/context.service';
 })
 export class KanbanListComponent implements OnInit {
   boards;
+  messageText: string;
+  showMessage = false;
 
   constructor(private groupsService: GroupsService,
               private contextService: ContextService,
-              private modal: NgbModal) { }
+              private modal: NgbModal) {
+  }
 
   ngOnInit() {
     this.contextService
@@ -29,18 +32,9 @@ export class KanbanListComponent implements OnInit {
     ref.result.then(board => this.boards = [...this.boards, board]);
   }
 
-  public editBoard(boardToEdit) {
-    // this.boards = this.boards.map(board => {
-    //   if (board.name === boardToEdit.name) {
-    //     board = Object.assign({}, board, boardToEdit);
-    //   }
-    //
-    //   return board;
-  }
-
-  public removeBoard(boardToRemove) {
+  public removeBoard(boardToRemove): void {
     this.groupsService
       .removeBoard(boardToRemove)
-      .subscribe(() => this.boards = this.boards.filter(board => board.name !== boardToRemove.name));
+      .subscribe(() => this.boards = this.boards.filter(board => board.id !== boardToRemove.id));
   }
 }

@@ -3,9 +3,10 @@ import {Board} from '../shared/models/board';
 import {Task} from '../shared/models/task';
 import {ContextService} from '../shared/services/context.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {NewTaskModalComponent} from '../modals/new-task.modal/new-task.modal.component';
+import {TaskModalComponent} from '../modals/new-task.modal/task.modal.component';
 import { noop } from 'lodash';
 import {BoardModalComponent} from '../modals/new-board.modal/board.modal.component';
+import {GroupsService} from '../shared/services/groups.service';
 
 @Component({
   selector: 'app-kanban-board',
@@ -17,10 +18,10 @@ export class KanbanBoardComponent implements OnInit, OnChanges {
   @Output() edit: EventEmitter<Board> = new EventEmitter<Board>();
   @Output() remove: EventEmitter<Board> = new EventEmitter<Board>();
   @ViewChild('modal') confirmationModal: TemplateRef<void>;
-
-
+  taskEnteredToDropZone = false;
 
   constructor(private contextService: ContextService,
+              private groupsService: GroupsService,
               private modal: NgbModal) { }
 
   ngOnInit() {
@@ -43,28 +44,51 @@ export class KanbanBoardComponent implements OnInit, OnChanges {
   public removeBoard(): void {
     const ref = this.modal.open(this.confirmationModal, {keyboard: false, backdrop: 'static', size: 'lg'});
     ref.result.then(board => this.remove.emit(board));
-    ;
   }
 
   public addTask() {
-    const ref = this.modal.open(NewTaskModalComponent, {keyboard: false, backdrop: 'static', size: 'lg'});
-    ref.result.then(task => [...this.board.tasks, task], noop);
+    const ref = this.modal.open(TaskModalComponent, {keyboard: false, backdrop: 'static', size: 'lg'});
+    ref.componentInstance.currentBoard = this.board;
+    ref.result.then(task => {
+      console.log(task)
+      this.board.tasks = [...this.board.tasks, task];
+    });
   }
 
-  public editTask(taskToEdit) {
-    // this.tasks = this.tasks.map(task => {
-    //   if (task.id === taskToEdit.id) {
-    //     task = Object.assign({}, task, taskToEdit)
-    //   }
-    //
-    //   return task;
-    // });
+  public dragTask(taskToAdd, currentBoard) {
+    this.groupsService
+      .saveTask(taskToAdd, currentBoard)
+      .subscribe(task => {
+        this.board.tasks = [...this.board.tasks, task];
+      });
   }
 
-  public removeTask (taskToRemove): void {
-    this.board.tasks = this.board.tasks.filter(task => task.title !== taskToRemove.title);
+  public removeTask(taskToRemove, board = this.board) {
+    this.groupsService
+      .removeTask(taskToRemove, board)
+      .subscribe(() => {
+        board.tasks = board.tasks.filter(task => task.id !== taskToRemove.id);
+      });
   }
 
+  public onDrag(event): void {
+      event.preventDefault();
+      event.stopPropagation();
+   }
 
+  public onDragEnter(event): void {
+      event.preventDefault();
+      event.stopPropagation();
+      this.taskEnteredToDropZone = event;
+  }
 
+  public onDrop(event): void {
+      const taskData = JSON.parse(event.dataTransfer.getData('taskData'));
+      event.preventDefault();
+      event.stopPropagation();
+      this.taskEnteredToDropZone = false;
+
+      this.removeTask(taskData.task, taskData.board);
+      this.dragTask(taskData.task, event.target);
+  }
 }

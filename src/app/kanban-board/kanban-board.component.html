@@ -1,8 +1,8 @@
 <article>
-  <div class="row">
-    <h3 class="display-6 col-9">{{board.name}}</h3>
+  <header>
+    <h3 class="display-6">{{board.name}}</h3>
 
-    <div class="col-3">
+    <div>
       <button class="btn btn-success"
               (click)="addTask(board)">
         <i class="fa fa-plus"></i>
@@ -16,13 +16,18 @@
         <i class="fa fa-trash"></i>
       </button>
     </div>
+  </header>
 
-  </div>
 
-
-  <div *ngIf="board?.tasks && board.tasks.length">
+  <div class="tasks"
+       *ngIf="board?.tasks && board.tasks.length"
+       [ngClass]="{'task-enter': taskEnteredToDropZone}"
+       (dragover)="onDrag($event)"
+       (dragenter)="onDragEnter($event)"
+       (drop)="onDrop($event)">
     <div *ngFor="let task of board.tasks" class="task">
       <app-task [task]="task"
+                [board]="board"
                 (edit)="editTask($event)"
                 (remove)="removeTask($event)">
       </app-task>
