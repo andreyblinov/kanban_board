@@ -1,0 +1,21 @@
+<section>
+  <header class="modal-header">
+   <h3 class="display-4 text-center">{{task.title}}</h3>
+    <h3 class="display-6 text-center">{{task.estimate}} hour(s)</h3>
+  </header>
+
+  <div class="modal-body">
+    <h3 class="display-6 text-center">Description</h3>
+    <p>{{task.description}}</p>
+  </div>
+
+  <footer class="modal-footer">
+    <button type="button"
+            class="btn btn-secondary"
+            (click)="close()"
+            data-dismiss="modal">
+      Close
+    </button>
+  </footer>
+
+</section>

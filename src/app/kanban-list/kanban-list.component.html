@@ -1,18 +1,26 @@
-<section class="row">
-  <h1 class="display-3 text-center col-10">Kanban Board</h1>
-  <div class="col-2">
-    <button class="btn btn-success btn-lg"
-            (click)="openBoardModalToAdd()">
-      <i class="fa fa-plus fa-sm"></i>
-    </button>
-  </div>
+<section class="text-center">
+  <h1 class="display-3 ">Kanban Board</h1>
 </section>
+<div class="add-btn">
+  <button class="btn btn-danger btn-lg"
+          title="Clear board"
+          (click)="clear()">
+    <i class="fa fa-trash fa-lg"></i>
+  </button>
+  <button class="btn btn-success btn-lg"
+          title="Add new board"
+          (click)="openBoardModalToAdd()">
+    <i class="fa fa-plus fa-lg"></i>
+  </button>
+</div>
 
-<section class="row">
+<section class="row boards">
   <div class="col"
        *ngFor="let board of boards">
     <app-kanban-board [board]="board"
+                      [id]="board.name"
                       (edit)="editBoard($event)"
+                      (renderBoards)="renderBoards($event)"
                       (remove)="removeBoard($event)">
     </app-kanban-board>
   </div>

@@ -6,7 +6,7 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </header>
-  <h1> Current board {{currentBoard.name}}</h1>
+
   <div class="modal-body">
     <form (ngSubmit)="!editMode ? addTask(newTask.value, currentBoard) : editTask(task, currentBoard)"
           #newTask="ngForm"

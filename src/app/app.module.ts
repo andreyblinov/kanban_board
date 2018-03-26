@@ -13,6 +13,7 @@ import { KanbanBoardComponent } from './kanban-board/kanban-board.component';
 import { TaskComponent } from './task/task.component';
 import { BoardModalComponent } from './modals/new-board.modal/board.modal.component';
 import { TaskModalComponent } from './modals/new-task.modal/task.modal.component';
+import { TaskInfoComponent } from './task-info/task-info.component';
 
 
 @NgModule({
@@ -22,15 +23,25 @@ import { TaskModalComponent } from './modals/new-task.modal/task.modal.component
     BoardModalComponent,
     KanbanBoardComponent,
     TaskComponent,
-    TaskModalComponent
+    TaskModalComponent,
+    TaskInfoComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     NgbModule
   ],
-  providers: [NgbModalStack, NgbActiveModal, GroupsService, ContextService],
+  providers: [
+    NgbModalStack,
+    NgbActiveModal,
+    GroupsService,
+    ContextService
+  ],
   bootstrap: [AppComponent],
-  entryComponents: [BoardModalComponent, TaskModalComponent]
+  entryComponents: [
+    BoardModalComponent,
+    TaskModalComponent,
+    TaskInfoComponent
+  ]
 })
 export class AppModule { }

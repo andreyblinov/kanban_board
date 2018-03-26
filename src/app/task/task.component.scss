@@ -1,8 +1,20 @@
 article {
+  position: relative;
   background-color: lightcoral;
   padding: 15px;
+  margin-bottom: 30px;
   font-family: "Helvetica Neue";
   border-radius: 10px;
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  }
+}
+
+.buttons-group {
+  position: absolute;
+  top: -20px;
+  right: 0;
 }
 
 header {

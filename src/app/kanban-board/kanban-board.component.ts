@@ -4,7 +4,7 @@ import {Task} from '../shared/models/task';
 import {ContextService} from '../shared/services/context.service';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TaskModalComponent} from '../modals/new-task.modal/task.modal.component';
-import { noop } from 'lodash';
+import { noop, uniqueBy } from 'lodash';
 import {BoardModalComponent} from '../modals/new-board.modal/board.modal.component';
 import {GroupsService} from '../shared/services/groups.service';
 
@@ -17,6 +17,7 @@ export class KanbanBoardComponent implements OnInit, OnChanges {
   @Input() board;
   @Output() edit: EventEmitter<Board> = new EventEmitter<Board>();
   @Output() remove: EventEmitter<Board> = new EventEmitter<Board>();
+  @Output() renderBoards: EventEmitter<Board> = new EventEmitter<Board>();
   @ViewChild('modal') confirmationModal: TemplateRef<void>;
   taskEnteredToDropZone = false;
 
@@ -75,9 +76,8 @@ export class KanbanBoardComponent implements OnInit, OnChanges {
   }
 
   public dragTask(taskToAdd, currentBoard) {
-    this.groupsService
-      .saveTask(taskToAdd, currentBoard)
-      .subscribe(() => this.board.tasks = [...this.board.tasks, taskToAdd]);
+    return this.groupsService
+      .saveTask(taskToAdd, currentBoard);
   }
 
   public removeTask(taskToRemove, board = this.board) {
@@ -107,8 +107,26 @@ export class KanbanBoardComponent implements OnInit, OnChanges {
       this.taskEnteredToDropZone = false;
 
       this.removeTask(taskData.task, taskData.board);
-      this.dragTask(taskData.task, this.board);
-
-    this.cd.detectChanges();
+      this.dragTask(taskData.task, this.board).subscribe(data => this.renderBoards.emit(data));
   }
+
+  // public swapBoards(event): void {
+  //   event.dataTransfer.setData('boardId', event.target.id);
+  // }
+  //
+  // public allowSwap(event): void {
+  //   event.preventDefault();
+  // }
+  //
+  // public finishSwap(event): void {
+  //   event.preventDefault();
+  //   const drop_target = event.target;
+  //   const drag_target_id = event.dataTransfer.getData('boardId');
+  //   const drag_target = document.querySelector(`#${drag_target_id}`);
+  //   const tmp = document.createElement('span');
+  //   tmp.className = 'hide';
+  //   drop_target.before(tmp);
+  //   drag_target.parentNode.insertBefore(drop_target, drag_target)
+  //   document.querySelector('span').innerHTML = document.querySelector(`#${drag_target_id}`).innerHTML;
+  // }
 }

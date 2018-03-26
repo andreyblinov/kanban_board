@@ -1,12 +1,20 @@
 article {
-  background-color: royalblue;
+  background-color: rgba(65, 105, 225, .3);
   padding: 10px 20px;
+  position: relative;
+  height: 100%;
+}
+
+.buttons-group {
+  position: absolute;
+  top: -20px;
+  right: 0;
 }
 
 header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin: 15px 0 20px 0;
 }
 
 .tasks {
@@ -14,11 +22,7 @@ header {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-}
-
-.task {
-  margin-bottom: 10px;
-  width: 45%;
+  height: 500px;
 }
 
 .task-enter {

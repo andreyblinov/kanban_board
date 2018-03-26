@@ -1,16 +1,20 @@
-<article draggable="true" (dragstart)="dragTask($event, this)" id="task">
+<article draggable="true"
+         (dragstart)="dragTask($event, this)"
+         (click)="openTask(task)"
+         id="task">
+  <div class="buttons-group">
+    <button class="btn btn-warning btn-sm"
+            (click)="openTaskModalToEdit($event, task)">
+      <i class="fa fa-pencil fa-sm"></i>
+    </button>
+    <button class="btn btn-danger btn-sm"
+            (click)="removeTask($event)">
+      <i class="fa fa-trash fa-sm"></i>
+    </button>
+  </div>
+
   <header>
     <h4 class="float-left">{{task.title}}</h4>
-    <div class="float-right">
-      <button class="btn btn-warning btn-sm"
-              (click)="openTaskModalToEdit(task)">
-        <i class="fa fa-pencil fa-sm"></i>
-      </button>
-      <button class="btn btn-danger btn-sm"
-              (click)="removeTask(task)">
-        <i class="fa fa-trash fa-sm"></i>
-      </button>
-    </div>
   </header>
 
     <div class="message">

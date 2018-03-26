@@ -30,6 +30,12 @@ export class KanbanListComponent implements OnInit {
     ref.result.then(board => this.boards = [...this.boards, board]);
   }
 
+  public clear(): void {
+    this.contextService
+      .clear()
+      .subscribe( boards => this.boards = boards);
+  }
+
   editBoard(boardToEdit) {
     this.boards = this.boards.map((board: Board) => {
       if (board.id === boardToEdit.id) {
@@ -44,5 +50,9 @@ export class KanbanListComponent implements OnInit {
     this.groupsService
       .removeBoard(boardToRemove)
       .subscribe(() => this.boards = this.boards.filter(board => board.id !== boardToRemove.id));
+  }
+
+  public renderBoards(boards) {
+    this.boards = boards;
   }
 }

@@ -15,6 +15,12 @@ export class ContextService implements OnInit {
     this.setDefaultBoards();
   }
 
+  public clear() {
+    this.storage.clear();
+    this.storage.setItem('boards', JSON.stringify(CONSTANTS.DEFAULT_BOARDS));
+    return Observable.of(CONSTANTS.DEFAULT_BOARDS);
+  }
+
   private getStorageItems(key): Board[] {
     return JSON.parse(this.storage.getItem(key));
   }
@@ -75,7 +81,6 @@ export class ContextService implements OnInit {
       return board;
     });
     this.setStorageItems('boards', boardToEdit);
-    console.log(boardToEdit[0]);
     return Observable.of(boardToEdit[0]);
   }
 
@@ -85,8 +90,8 @@ export class ContextService implements OnInit {
     const editedBoard = boards.map(board => {
       if (board.id === currentBoard.id) {
         board.tasks = [...board.tasks, task];
-      }
 
+      }
       return board;
     });
     this.setStorageItems('boards', editedBoard);
