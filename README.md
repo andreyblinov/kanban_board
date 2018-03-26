@@ -1,18 +1,25 @@
 # KanbanBoard
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3.
+This project helps ti manage working tasks. It can improve performance of the team.
 
-## Development server
+## Installation
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+To setup thi app on yor PC you need go through some simple steps
 
-## Code scaffolding
+1) You can clone or download this project from github
+2) To set app you need to have Node.js and NPM (Node package manager)
+2) If so install needed dependencies with `npm install` or `npm i`. This command downloads everything you need.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Run app
+
+To run app type this command in terminal `ng serve` and then open your favourite browser and type `http://localhost:4200`
+4200 is a port by default.
+Also you can automaticaly run browser with this url with `ng serve -o` command.
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Use the `-prod` flag for a production build.
 
 ## Running unit tests
 
@@ -21,7 +28,3 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 ## Running end-to-end tests
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
