@@ -14,7 +14,7 @@ export class BoardModalComponent implements OnInit {
 
   constructor(private groupsService: GroupsService,
               private contextService: ContextService,
-              private modal: NgbActiveModal) { }
+              private activeModal: NgbActiveModal) { }
 
   ngOnInit() {
   }
@@ -25,7 +25,7 @@ export class BoardModalComponent implements OnInit {
     this.groupsService
       .saveBoard(board)
       .subscribe(data => {
-        this.modal.close(data);
+        this.activeModal.close(data);
       });
   }
 
@@ -33,7 +33,7 @@ export class BoardModalComponent implements OnInit {
     this.groupsService
       .changeBoard(boardToEdit)
       .subscribe((data) => {
-        this.modal.close(data);
+        this.activeModal.close(data);
       });
   }
 
@@ -41,8 +41,8 @@ export class BoardModalComponent implements OnInit {
     board.name = newName;
   }
 
-  resetForm(form) {
+  resetForm(form): void {
     form.reset();
-    this.modal.close();
+    this.activeModal.dismiss();
   }
 }

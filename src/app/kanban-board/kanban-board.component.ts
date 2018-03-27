@@ -55,7 +55,8 @@ export class KanbanBoardComponent implements OnInit, OnChanges {
     const ref = this.modal.open(TaskModalComponent, {keyboard: false, backdrop: 'static', size: 'lg'});
     ref.componentInstance.currentBoard = this.board;
     ref.componentInstance.task = {title: '', description: '', estimate: 0};
-    ref.result.then(task => this.board.tasks = [...this.board.tasks, task]);
+    ref.result.then(task => this.board.tasks = [...this.board.tasks, task])
+              .catch(() => {});
   }
 
   public editTask(options) {

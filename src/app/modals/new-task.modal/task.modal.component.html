@@ -2,7 +2,7 @@
   <header class="modal-header">
     <h1 class="display-4">{{editMode ? 'Edit Task' : 'New Task'}}</h1>
 
-    <button type="button" class="close" (click)="modal.close()" aria-label="Close">
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </header>
@@ -80,7 +80,7 @@
 
     <button type="button"
             class="btn btn-secondary"
-            (click)="resetForm(newTask)"
+            (click)="resetForm()"
             data-dismiss="modal">
       Close
     </button>

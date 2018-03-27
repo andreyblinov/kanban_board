@@ -21,13 +21,21 @@ export class KanbanListComponent implements OnInit {
   ngOnInit() {
     this.contextService
       .getBoards()
-      .subscribe(data => this.boards = data);
+      .subscribe(data => this.boards = data || [] );
   }
 
   public openBoardModalToAdd(): void {
-    const ref = this.modal.open(BoardModalComponent, {keyboard: false, backdrop: 'static', size: 'lg'});
+    const ref = this.modal.open(BoardModalComponent,
+      {
+        keyboard: false,
+        backdrop: 'static',
+        size: 'lg'
+      }
+    )
+
     ref.componentInstance.board = {name: ''};
-    ref.result.then(board => this.boards = [...this.boards, board]);
+    ref.result.then(board => this.boards = [...this.boards, board])
+              .catch(() => {});
   }
 
   public clear(): void {

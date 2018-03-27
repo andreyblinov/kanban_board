@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {GroupsService} from '../../shared/services/groups.service';
 
@@ -8,9 +8,10 @@ import {GroupsService} from '../../shared/services/groups.service';
   styleUrls: ['./task.modal.component.scss']
 })
 export class TaskModalComponent implements OnInit {
+  @ViewChild('newTask') newTask;
 
   constructor(private groupsService: GroupsService,
-              private modal: NgbActiveModal) { }
+              public activeModal: NgbActiveModal) { }
 
   ngOnInit() {}
 
@@ -19,7 +20,7 @@ export class TaskModalComponent implements OnInit {
     this.groupsService
       .saveTask(taskToAdd, currentBoard)
       .subscribe(() => {
-        this.modal.close(taskToAdd);
+        this.activeModal.close(taskToAdd);
       });
   }
 
@@ -37,12 +38,12 @@ export class TaskModalComponent implements OnInit {
     this.groupsService
       .changeTask(task, currentBoard)
       .subscribe(data => {
-        this.modal.close(data);
+        this.activeModal.close(data);
       });
   }
 
-  resetForm(form) {
-    form.reset();
-    this.modal.close();
+  public resetForm(): any {
+    this.newTask.reset()
+    this.activeModal.dismiss();
   }
 }

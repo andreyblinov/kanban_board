@@ -2,7 +2,7 @@
   <header class="modal-header">
     <h1 class="display-4">{{editMode ? 'Edit Board' : 'New Board'}}</h1>
 
-    <button type="button" class="close" (click)="modal.close()" aria-label="Close">
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
       <span aria-hidden="true">&times;</span>
     </button>
   </header>

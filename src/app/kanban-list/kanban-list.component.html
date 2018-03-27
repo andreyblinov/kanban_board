@@ -1,5 +1,8 @@
 <section class="text-center">
-  <h1 class="display-3 ">Kanban Board</h1>
+  <h1 class="display-3">
+    Kanban Board
+  </h1>
+
 </section>
 <div class="add-btn">
   <button class="btn btn-danger btn-lg"
@@ -14,14 +17,28 @@
   </button>
 </div>
 
-<section class="row boards">
-  <div class="col"
-       *ngFor="let board of boards">
-    <app-kanban-board [board]="board"
-                      [id]="board.name"
-                      (edit)="editBoard($event)"
-                      (renderBoards)="renderBoards($event)"
-                      (remove)="removeBoard($event)">
-    </app-kanban-board>
+<section>
+  <div class="row boards" *ngIf="boards.length; else noBoards">
+    <div class="col"
+         *ngFor="let board of boards">
+      <app-kanban-board [board]="board"
+                        [id]="board.name"
+                        (edit)="editBoard($event)"
+                        (renderBoards)="renderBoards($event)"
+                        (remove)="removeBoard($event)">
+      </app-kanban-board>
+    </div>
   </div>
+
+  <ng-template #noBoards>
+    <div class="noBoards">
+      <h2>No board available</h2>
+      <p class="text-center">Add new board, please</p>
+      <p class="text-center">Use button for this</p>
+      <div class="button-img">
+        <i class="fa fa-plus fa-2x"></i>
+      </div>
+    </div>
+  </ng-template>
 </section>
+
